@@ -9,6 +9,12 @@ src     = Glob('src/*.c')
 if GetDepend('VT100_USING_MONITOR'):
 	src    += Glob('examples/vt_monitor.c')
 
+if GetDepend('VT100_USING_COLOR'):
+	src    += Glob('examples/vt_color.c')
+
+if GetDepend('VT100_USING_SL'):
+	src    += Glob('examples/vt_sl.c')
+
 path   =  [cwd + '/src']
 path   += [cwd + '/examples']
 
