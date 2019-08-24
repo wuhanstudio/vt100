@@ -1,3 +1,11 @@
+/*
+ * @Description: VT100 drawing library
+ * @Author: Wu Han
+ * @Date: 2019-08-24 20:16:50
+ * @LastEditTime: 2019-08-24 20:27:43
+ * @LastEditors: Please set LastEditors
+ */
+
 #ifndef __VT100_H__
 #define __VT100_H__
 
@@ -49,7 +57,7 @@ void vt_set_bg_color(int color);
 
 void vt_draw_char(char ch);
 void vt_draw_char_at(int row, int col, char ch);
-void vt_draw_str(char* ch);
+void vt_draw_str(char* str);
 void vt_draw_str_at(int row, int col, char* ch);
 
 void vt_draw_hline(int row, int col, int len, char ch);
