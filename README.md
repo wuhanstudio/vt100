@@ -26,4 +26,4 @@ RT-Thread 的终端 msh 一直是一个非常受大家欢迎的组件，但是�
 
 - 维护：Wu Han
 - 主页：http://wuhanstudio.cc
-- 邮箱：wuhanstudio@hust.edu.cn
+- 联系：https://github.com/wuhanstudio/vt100/issues
