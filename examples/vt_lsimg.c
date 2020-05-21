@@ -48,7 +48,7 @@ uint16_t out_func (JDEC* jd, void* bitmap, JRECT* rect)
 
     /* Put progress indicator */
     if (rect->left == 0) {
-        rt_kprintf("\r%lu%%", (rect->top << jd->scale) * 100UL / jd->height);
+        rt_kprintf("\r%lu%%\n", (rect->top << jd->scale) * 100UL / jd->height);
     }
 
     /* Copy the decompressed RGB rectanglar to the frame buffer (assuming RGB888 cfg) */
