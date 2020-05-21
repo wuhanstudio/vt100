@@ -2,10 +2,10 @@
 #include <stdio.h>
 
 #include <vt100.h>
-#include "wuhanstudios.h"
+#include "minions.h"
 
 void vt_rgb_buf(int argc, char* arvg[])
 {
-    vt_draw_rgb888(wuhanstudios, wuhanstudios_w, wuhanstudios_h);
+    vt_draw_rgb888(minions, minions_w, minions_h);
 }
 MSH_CMD_EXPORT(vt_rgb_buf, draw RGB image in console)
