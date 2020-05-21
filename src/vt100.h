@@ -68,6 +68,10 @@ void vt_draw_box(int s_row, int s_col, int n_rows, int n_cols, char h_fill, char
 
 void vt_draw_bitmap(int s_row, int s_col, int n_rows, int n_cols, const rt_uint8_t* bitmap, char f_color, char b_color);
 
-void vt_draw_rgb888(rt_uint8_t* buffer, int n_rows, int n_cols);
+// channel width height
+void vt_draw_rgb888_cwh(rt_uint8_t* buffer, int n_rows, int n_cols);
+
+// width height channel
+void vt_draw_rgb888_whc(rt_uint8_t* buffer, int n_rows, int n_cols);
 
 #endif // __VT100_H__

@@ -313,7 +313,7 @@ void vt_draw_bitmap(int s_row, int s_col, int n_rows, int n_cols, const rt_uint8
     }
 }
 
-void vt_draw_rgb888(rt_uint8_t* buffer, int n_rows, int n_cols)
+void vt_draw_rgb888_cwh(rt_uint8_t* buffer, int n_rows, int n_cols)
 {
     int row = 0;
     int col = 0;
@@ -329,3 +329,21 @@ void vt_draw_rgb888(rt_uint8_t* buffer, int n_rows, int n_cols)
         printf("\n");
     }
 }
+
+void vt_draw_rgb888_whc(rt_uint8_t* buffer, int n_rows, int n_cols)
+{
+    int row = 0;
+    int col = 0;
+    for (row = 0; row < n_rows; row++)
+    {
+        for (col = 0; col < n_cols; col++)
+        {
+            rt_uint8_t r = buffer[row * n_cols * 3 + col * 3];
+            rt_uint8_t g = buffer[row * n_cols * 3 + col * 3 + 1];
+            rt_uint8_t b = buffer[row * n_cols * 3 + col * 3 + 2];
+            printf("\x1b[48;2;%d;%d;%dm\x1b[38;2;%d;%d;%dm◾\x1b[39m\x1b[49m", r, g, b, r, g, b);
+        }
+        printf("\n");
+    }
+}
+

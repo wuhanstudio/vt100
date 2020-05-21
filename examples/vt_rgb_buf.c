@@ -6,6 +6,6 @@
 
 void vt_rgb_buf(int argc, char* arvg[])
 {
-    vt_draw_rgb888(minions, minions_w, minions_h);
+    vt_draw_rgb888_cwh(minions, minions_w, minions_h);
 }
 MSH_CMD_EXPORT(vt_rgb_buf, draw RGB image in console)

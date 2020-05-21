@@ -7,7 +7,7 @@ RT-Thread 的终端 msh 一直是一个非常受大家欢迎的组件，但是�
 在 examples 目录下有个直接 jpg 生成 C 代码的小工具：
 
 ```
-python rgb2xterm.py minions.png
+python img2rgb888_cwh.py minions.png
 ```
 
 然后就可以在控制台打印图片了
