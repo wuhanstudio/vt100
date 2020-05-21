@@ -323,7 +323,7 @@ void vt_draw_rgb888_cwh(rt_uint8_t* buffer, int n_rows, int n_cols)
         {
             rt_uint8_t r = buffer[row * n_cols + col];
             rt_uint8_t g = buffer[n_rows * n_cols + row * n_cols + col];
-            rt_uint8_t b = buffer[n_rows * n_cols*2 + row * n_cols + col];
+            rt_uint8_t b = buffer[n_rows * n_cols * 2 + row * n_cols + col];
             printf("\x1b[48;2;%d;%d;%dm\x1b[38;2;%d;%d;%dm◾\x1b[39m\x1b[49m", r, g, b, r, g, b);
         }
         printf("\n");
@@ -346,4 +346,3 @@ void vt_draw_rgb888_whc(rt_uint8_t* buffer, int n_rows, int n_cols)
         printf("\n");
     }
 }
-

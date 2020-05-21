@@ -16,7 +16,7 @@ if GetDepend('VT100_USING_SL'):
 	src    += Glob('examples/vt_sl.c')
 
 if GetDepend('VT100_USING_IMGBUF'):
-	src    += Glob('examples/vt_rgb_buf.c')
+	src    += Glob('examples/vt_imshow.c')
 
 if GetDepend('VT100_USING_LSIMG'):
 	src    += Glob('examples/vt_lsimg.c')

@@ -99,7 +99,7 @@ int lsimg (int argc, char* argv[])
         } else {
             rt_kprintf("Failed to decompress: rc=%d\n", res);
         }
-        vt_draw_rgb888_whc(devid.fbuf, jdec.width, jdec.height);
+        vt_draw_rgb888_whc(devid.fbuf, jdec.height, jdec.width);
         rt_free(devid.fbuf);    /* Discard frame buffer */
 
     } else {

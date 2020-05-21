@@ -17,31 +17,32 @@ if os.path.splitext(sys.argv[1])[1] == '.png':
 
 filename = os.path.splitext(sys.argv[1])[0]
 print("Writing to %s" % (filename + '.h'))
+print("Image %d x %d" % (img.shape[1], img.shape[0]))
 
 with open(filename + '.h', 'w+') as f:
     f.write("#ifndef __%s_H__\n" % (filename.upper()))
     f.write("#define __%s_H__\n" % (filename.upper()))
     f.write("\n")
 
-    f.write("const uint8_t %s_w = %d;\n" % (filename, img.shape[0]) )
-    f.write("const uint8_t %s_h = %d;\n" % (filename, img.shape[1]) )
+    f.write("const uint8_t %s_w = %d;\n" % (filename, img.shape[1]) )
+    f.write("const uint8_t %s_h = %d;\n" % (filename, img.shape[0]) )
     f.write("\n")
 
     f.write("uint8_t %s[] = {" % filename)
 
     for w in range(img.shape[0]):
         for h in range(img.shape[1]):
-            f.write("0x%x," % (int(img[w,h,0])))
+            f.write("0x%x," % (int(img[w ,h, 0])))
         f.write("\n")
 
     for w in range(img.shape[0]):
         for h in range(img.shape[1]):
-            f.write("0x%x," % (int(img[w,h,1])))
+            f.write("0x%x," % (int(img[w, h, 1])))
         f.write("\n")
 
     for w in range(img.shape[0]):
         for h in range(img.shape[1]):
-            f.write("0x%x," % (int(img[w,h,2])))
+            f.write("0x%x," % (int(img[w, h, 2])))
         f.write("\n")
 
     f.write("};\n")
