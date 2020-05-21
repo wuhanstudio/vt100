@@ -18,10 +18,8 @@ if GetDepend('VT100_USING_SL'):
 if GetDepend('VT100_USING_IMGBUF'):
 	src    += Glob('examples/vt_rgb_buf.c')
 
-#if GetDepend('VT100_USING_IMGBUF'):
-#	src    += Glob('examples/vt_rgb_buf.c')
-
-src    += Glob('examples/vt_lsimg.c')
+if GetDepend('VT100_USING_LSIMG'):
+	src    += Glob('examples/vt_lsimg.c')
 
 path   =  [cwd + '/src']
 path   += [cwd + '/examples']
