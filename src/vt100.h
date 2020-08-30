@@ -20,6 +20,8 @@
 /* +----------------------------+ */
 /*                                */
 
+#include <rtdef.h>
+
 // Foreground Color
 #define VT_F_BLACK      30
 #define VT_F_RED        31
