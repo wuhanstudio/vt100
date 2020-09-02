@@ -100,7 +100,7 @@ void vt_sl(int argc, char *argv[])
         }
     }
 
-	vt_hide_cursor();
+    vt_hide_cursor();
     vt_clear();
 
     for (x = COLS - 1; ; --x) {

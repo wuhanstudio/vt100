@@ -13,7 +13,7 @@
 
 void vt_color(int argc, char* argv[])
 {
-	vt_hide_cursor();
+    vt_hide_cursor();
     vt_clear();
 
     // 1. Corlor Bar
@@ -42,7 +42,7 @@ void vt_color(int argc, char* argv[])
 
     // 3. Logo
     char rt_str[30];
-	vt_draw_str_at(14, 40, " \\ | /");
+    vt_draw_str_at(14, 40, " \\ | /");
     vt_draw_str_at(15, 40, "- RT -     Thread Operating System\n");
     sprintf(rt_str, " / | \\     %ld.%ld.%ld build %s\n", RT_VERSION, RT_SUBVERSION, RT_REVISION, __DATE__);
     vt_draw_str_at(16, 40, rt_str);

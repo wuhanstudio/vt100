@@ -28,7 +28,7 @@ typedef struct
 
 rt_inline void object_split(int len)
 {
-	printf("|    ");
+    printf("|    ");
     while (len--) printf("-");
 }
 
@@ -128,11 +128,11 @@ long vt_list_thread(void)
 
 #ifdef RT_USING_SMP
     printf("%-*.s cpu pri  status      sp     stack size max used left tick  error\n", maxlen, item_title); 
-	object_split(maxlen);
+    object_split(maxlen);
     printf(     "--- ---  ------- ---------- ----------  ------  ---------- ---\n");
 #else
     printf("    %-*.s pri  status      sp     stack size max used left tick  error\n", maxlen, item_title); 
-	object_split(maxlen);
+    object_split(maxlen);
     printf(     "----  ------- ---------- ----------  ------  ---------- ---\n");
 #endif /*RT_USING_SMP*/
 
@@ -223,7 +223,7 @@ void vt_monitor(int argc, char* argv[])
     }
 
     // Monitor Frame
-	vt_hide_cursor();
+    vt_hide_cursor();
     vt_clear();
 
     vt_set_font_color(VT_F_WHITE);
@@ -235,7 +235,7 @@ void vt_monitor(int argc, char* argv[])
     vt_fill_box(1, 1, 21, 78, ' ');
 
     char rt_str[30];
-	vt_draw_str_at(2, 23, " \\ | /");
+    vt_draw_str_at(2, 23, " \\ | /");
     vt_draw_str_at(3, 23, "- RT -     Thread Operating System\n");
     sprintf(rt_str, " / | \\     %ld.%ld.%ld build %s\n", RT_VERSION, RT_SUBVERSION, RT_REVISION, __DATE__);
     vt_draw_str_at(4, 23, rt_str);
