@@ -237,7 +237,7 @@ void vt_monitor(int argc, char* argv[])
     char rt_str[30];
 	vt_draw_str_at(2, 23, " \\ | /");
     vt_draw_str_at(3, 23, "- RT -     Thread Operating System\n");
-    sprintf(rt_str, " / | \\     %d.%d.%d build %s\n", RT_VERSION, RT_SUBVERSION, RT_REVISION, __DATE__);
+    sprintf(rt_str, " / | \\     %ld.%ld.%ld build %s\n", RT_VERSION, RT_SUBVERSION, RT_REVISION, __DATE__);
     vt_draw_str_at(4, 23, rt_str);
     vt_draw_str_at(5, 23, " 2006 - 2019 Copyright by rt-thread team\n");
 
