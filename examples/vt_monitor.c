@@ -7,8 +7,6 @@
  */
 
 #include <rthw.h>
-#include <rtthread.h>
-#include <rtdevice.h>
 #include <finsh.h>
 #include <stdio.h>
 #include <string.h>

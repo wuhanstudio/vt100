@@ -9,6 +9,7 @@
 #ifndef __VT100_H__
 #define __VT100_H__
 
+#include <stdint.h>
 
 // http://ascii-table.com/ansi-escape-sequences.php
 /*             VT100              */
