@@ -6,6 +6,7 @@
  * @LastEditors: Please set LastEditors
  */
 
+#include <rtthread.h>
 #include <rthw.h>
 #include <finsh.h>
 #include <stdio.h>
