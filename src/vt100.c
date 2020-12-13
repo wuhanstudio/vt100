@@ -8,9 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <time.h>
-
 #include "vt100.h"
 
 /**
@@ -24,13 +22,25 @@ void vt_clear(void)
 }
 
 /**
- * @description: Clear screen and delete all lines saved in the scrollback buffer
+ * @description: Delete all lines saved in the scrollback buffer
  * @param void 
  * @return: void
  */
 void vt_clear_scrollback(void)
 {
-    printf("\033[2J\033[3J");
+    printf("\033[3J");
+}
+
+/**
+ * @description: Clear screen & delete all lines saved in the scrollback buffer & move cursor to (0,0)
+ * @param void 
+ * @return: void
+ */
+void vt_clearall(void)
+{
+    vt_clear();
+    vt_clear_scrollback();
+    vt_move_to(0,0);
 }
 
 /**
@@ -48,10 +58,8 @@ void vt_clear_attr(void)
  * @param step Number of steps to move up
  * @return: void
  */
-void vt_move_up(int step)
+void vt_move_up(uint16_t step)
 {
-    assert(step >= 0);
-
     printf("\033[%dA", step);
 }
 
@@ -60,10 +68,8 @@ void vt_move_up(int step)
  * @param step Number of steps to move down
  * @return: void
  */
-void vt_move_down(int step)
+void vt_move_down(uint16_t step)
 {
-    assert(step >= 0);
-
     printf("\033[%dB", step);
 }
 
@@ -72,10 +78,8 @@ void vt_move_down(int step)
  * @param step Number of steps to move right
  * @return: void
  */
-void vt_move_right(int step)
+void vt_move_right(uint16_t step)
 {
-    assert(step >= 0);
-
     printf("\033[%dC", step);
 }
 
@@ -84,23 +88,19 @@ void vt_move_right(int step)
  * @param step Number of steps to move left
  * @return: void
  */
-void vt_move_left(int step)
+void vt_move_left(uint16_t step)
 {
-    assert(step >= 0);
-
     printf("\033[%dD", step);
 }
 
 /**
  * @description: Move cursor to (row, column)
- * @param row destination row number
- * @param col destination column number
+ * @param row destination row number, started from 0
+ * @param col destination column number, started from 0
  * @return: void
  */
-void vt_move_to(int row, int col)
+void vt_move_to(uint16_t row, uint16_t col)
 {
-    assert(row >= 0 && col >= 0);
-
     printf("\033[%d;%dH", row + 1, col + 1);
 }
 
@@ -126,25 +126,21 @@ void vt_show_cursor(void)
 
 /**
  * @description: Set font color
- * @param color font color 
+ * @param color font color (values are available from 30 to 37)
  * @return: void
  */
-void vt_set_font_color(int color)
+void vt_set_font_color(vt_fore_color color)
 {
-    assert(color >= 30 && color <= 37);
-
     printf("\033[%dm", color);
 }
 
 /**
  * @description: Set background color
- * @param color background color 
+ * @param color background color (values are available from 40 to 47)
  * @return: void
  */
-void vt_set_bg_color(int color)
+void vt_set_bg_color(vt_back_color color)
 {
-    assert(color >= 40 && color <= 47);
-
     printf("\033[%dm", color);
 }
 
@@ -175,10 +171,8 @@ void vt_draw_str(char* str)
  * @param ch 
  * @return: void
  */
-void vt_draw_char_at(int row, int col, char ch)
+void vt_draw_char_at(uint16_t row, uint16_t col, char ch)
 {
-    assert(row >= 0 && col >= 0);
-
     vt_move_to(row, col);
     printf("%c", ch);
 }
@@ -190,10 +184,8 @@ void vt_draw_char_at(int row, int col, char ch)
  * @param ch 
  * @return: void
  */
-void vt_draw_str_at(int row, int col, char* ch)
+void vt_draw_str_at(uint16_t row, uint16_t col, char* ch)
 {
-    assert(row >= 0 && col >= 0);
-
     vt_move_to(row, col);
     printf("%s", ch);
 }
@@ -206,12 +198,11 @@ void vt_draw_str_at(int row, int col, char* ch)
  * @param ch
  * @return: void
  */
-void vt_draw_hline(int row, int col, int len, char ch)
+void vt_draw_hline(uint16_t row, uint16_t col, uint16_t len, char ch)
 {
-    assert(row >= 0 && col >= 0 && len >= 0);
+    uint16_t i;
 
     vt_move_to(row, col);
-    int i;
     for(i = col; i < (col + len); i++){
         vt_draw_char(ch);
     }
@@ -225,10 +216,9 @@ void vt_draw_hline(int row, int col, int len, char ch)
  * @param ch 
  * @return: void
  */
-void vt_draw_vline(int row, int col, int len, char ch)
+void vt_draw_vline(uint16_t row, uint16_t col, uint16_t len, char ch)
 {
-    assert(row >= 0 && col >= 0 && len >= 0);
-    int i;
+    uint16_t i;
     for(i = row; i < (row + len); i++){
         vt_draw_char_at(i, col, ch);
     }
@@ -243,13 +233,10 @@ void vt_draw_vline(int row, int col, int len, char ch)
  * @param s_row
  * @return: void
  */
-void vt_fill_box(int s_row, int s_col, int n_rows, int n_cols, char ch)
+void vt_fill_box(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, char ch)
 {
-    assert(s_row >= 0 && s_col >= 0);
-    assert(n_rows >= 0 && n_cols >= 0);
-
-    int row = 0;
-    int col = 0;
+    uint16_t row = 0;
+    uint16_t col = 0;
     for (row = s_row; row < (s_row + n_rows); row++){
         vt_move_to(row, s_col);
         for (col = s_col; col < (s_col + n_cols); col++){
@@ -269,11 +256,8 @@ void vt_fill_box(int s_row, int s_col, int n_rows, int n_cols, char ch)
  * @param c_fill  corner character
  * @return: void
  */
-void vt_draw_box(int s_row, int s_col, int n_rows, int n_cols, char h_fill, char v_fill, char c_fill)
+void vt_draw_box(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, char h_fill, char v_fill, char c_fill)
 {
-    assert(s_row >= 0 && s_col >= 0);
-    assert(n_rows >= 0 && n_cols >= 0);
-
     vt_draw_hline(s_row, s_col, n_cols, h_fill);
     vt_draw_hline(s_row + n_rows - 1, s_col, n_cols, h_fill);
     vt_draw_vline(s_row, s_col, n_rows, v_fill);
@@ -292,20 +276,15 @@ void vt_draw_box(int s_row, int s_col, int n_rows, int n_cols, char h_fill, char
  * @param  n_rows       width
  * @param  n_cols       height
  * @param  bitmap 
- * @param  color_on     display background
- * @param  color off    non-display background
+ * @param  color_on     display background (values are available from 40 to 47)
+ * @param  color off    non-display background (values are available from 40 to 47)
  * @return: void
  */
 
-void vt_draw_bitmap(int s_row, int s_col, int n_rows, int n_cols, const uint8_t* bitmap, char color_on, char color_off)
+void vt_draw_bitmap(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, const uint8_t* bitmap, vt_back_color color_on, vt_back_color color_off)
 {
-    assert(s_row >= 0 && s_col >= 0);
-    assert(n_rows >= 0 && n_cols >= 0);
-    assert(color_on >= 40 && color_on <= 47);
-    assert(color_off >= 40 && color_off <= 47);
-
-    int row = 0;
-    int col = 0;
+    uint16_t row = 0;
+    uint16_t col = 0;
     for (row = s_row; row < (s_row + n_rows); row++)
     {
         vt_move_to(row, s_col);
@@ -324,10 +303,10 @@ void vt_draw_bitmap(int s_row, int s_col, int n_rows, int n_cols, const uint8_t*
     }
 }
 
-void vt_draw_rgb888_cwh(uint8_t* buffer, int n_rows, int n_cols)
+void vt_draw_rgb888_cwh(uint8_t* buffer, uint16_t n_rows, uint16_t n_cols)
 {
-    int row = 0;
-    int col = 0;
+    uint16_t row = 0;
+    uint16_t col = 0;
     for (row = 0; row < n_rows; row++)
     {
         for (col = 0; col < n_cols; col++)
@@ -341,10 +320,10 @@ void vt_draw_rgb888_cwh(uint8_t* buffer, int n_rows, int n_cols)
     }
 }
 
-void vt_draw_rgb888_whc(uint8_t* buffer, int n_rows, int n_cols)
+void vt_draw_rgb888_whc(uint8_t* buffer, uint16_t n_rows, uint16_t n_cols)
 {
-    int row = 0;
-    int col = 0;
+    uint16_t row = 0;
+    uint16_t col = 0;
     for (row = 0; row < n_rows; row++)
     {
         for (col = 0; col < n_cols; col++)
