@@ -22,6 +22,17 @@ void vt_clear(void)
 {
     printf("\033[2J");
 }
+
+/**
+ * @description: Clear screen and delete all lines saved in the scrollback buffer
+ * @param void 
+ * @return: void
+ */
+void vt_clear_scrollback(void)
+{
+    printf("\033[2J\033[3J");
+}
+
 /**
  * @description: Clear attributes such as colors
  * @param void

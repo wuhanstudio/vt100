@@ -42,6 +42,7 @@
 #define VT_B_WHITE      47
 
 void vt_clear(void);
+void vt_clear_scrollback(void);
 void vt_clear_attr(void);
 
 void vt_hide_cursor(void);
