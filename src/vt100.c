@@ -281,7 +281,8 @@ void vt_draw_box(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_col
  * @return: void
  */
 
-void vt_draw_bitmap(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, const uint8_t* bitmap, vt_back_color color_on, vt_back_color color_off)
+void vt_draw_bitmap(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, const uint8_t* bitmap, 
+                    vt_back_color color_on, vt_back_color color_off)
 {
     uint16_t row = 0;
     uint16_t col = 0;
