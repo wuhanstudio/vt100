@@ -95,8 +95,8 @@ void vt_move_left(uint16_t step)
 
 /**
  * @description: Move cursor to (row, column)
- * @param row destination row number, started from 0
- * @param col destination column number, started from 0
+ * @param row destination row number, starting from 0
+ * @param col destination column number, starting from 0
  * @return: void
  */
 void vt_move_to(uint16_t row, uint16_t col)
@@ -126,7 +126,7 @@ void vt_show_cursor(void)
 
 /**
  * @description: Set font color
- * @param color font color (values are available from 30 to 37)
+ * @param color font color
  * @return: void
  */
 void vt_set_font_color(vt_fore_color color)
@@ -136,7 +136,7 @@ void vt_set_font_color(vt_fore_color color)
 
 /**
  * @description: Set background color
- * @param color background color (values are available from 40 to 47)
+ * @param color background color
  * @return: void
  */
 void vt_set_bg_color(vt_back_color color)
@@ -276,11 +276,10 @@ void vt_draw_box(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_col
  * @param  n_rows       width
  * @param  n_cols       height
  * @param  bitmap 
- * @param  color_on     display background (values are available from 40 to 47)
- * @param  color off    non-display background (values are available from 40 to 47)
+ * @param  color_on     display background
+ * @param  color off    non-display background
  * @return: void
  */
-
 void vt_draw_bitmap(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, const uint8_t* bitmap, 
                     vt_back_color color_on, vt_back_color color_off)
 {
