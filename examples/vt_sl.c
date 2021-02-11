@@ -123,7 +123,7 @@ void vt_sl(int argc, char *argv[])
     vt_clear_attr();
     vt_show_cursor();
 }
-MSH_CMD_EXPORT(sl, Steam Locomotive)
+MSH_CMD_EXPORT_ALIAS(vt_sl, sl, Steam Locomotive)
 
 
 int add_sl(int x)
