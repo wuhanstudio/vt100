@@ -7,17 +7,17 @@
  */
 /*========================================
  *    sl.h: SL version 5.02
- *	Copyright 1993,2002,2014
+ *  Copyright 1993,2002,2014
  *                Toyoda Masashi
- *		  (mtoyoda@acm.org)
- *	Last Modified: 2014/06/03
+ *        (mtoyoda@acm.org)
+ *  Last Modified: 2014/06/03
  *========================================
  */
 
-#define D51HEIGHT	10
-#define D51FUNNEL	 7
-#define D51LENGTH	83
-#define D51PATTERNS	 6
+#define D51HEIGHT   10
+#define D51FUNNEL    7
+#define D51LENGTH   83
+#define D51PATTERNS  6
 
 #define COLS  80
 #define LINES 25
@@ -69,10 +69,10 @@
 
 #define COALDEL "                              "
 
-#define LOGOHEIGHT    	 6
-#define LOGOFUNNEL  	 4
+#define LOGOHEIGHT       6
+#define LOGOFUNNEL       4
 #define LOGOLENGTH      84
-#define LOGOPATTERNS	 6
+#define LOGOPATTERNS     6
 
 #define LOGO1  "     ++      +------ "
 #define LOGO2  "     ||      |+-+ |  "
