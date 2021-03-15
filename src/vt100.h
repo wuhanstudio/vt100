@@ -75,7 +75,7 @@ void vt_draw_vline(uint16_t row, uint16_t col, uint16_t len, char ch);
 void vt_fill_box(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, char ch);
 void vt_draw_box(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, char h_fill, char v_fill, char c_fill);
 
-void vt_draw_bitmap(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, const uint8_t* bitmap, 
+void vt_draw_bitmap(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, const uint8_t* bitmap,
                     vt_back_color color_on, vt_back_color color_off);
 
 /* channel width height */

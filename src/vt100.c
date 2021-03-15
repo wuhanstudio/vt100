@@ -13,7 +13,7 @@
 
 /**
  * @description: Clear screen
- * @param void 
+ * @param void
  * @return: void
  */
 void vt_clear(void)
@@ -23,7 +23,7 @@ void vt_clear(void)
 
 /**
  * @description: Delete all lines saved in the scrollback buffer
- * @param void 
+ * @param void
  * @return: void
  */
 void vt_clear_scrollback(void)
@@ -33,7 +33,7 @@ void vt_clear_scrollback(void)
 
 /**
  * @description: Clear screen & delete all lines saved in the scrollback buffer & move cursor to (0,0)
- * @param void 
+ * @param void
  * @return: void
  */
 void vt_clearall(void)
@@ -146,7 +146,7 @@ void vt_set_bg_color(vt_back_color color)
 
 /**
  * @description: Draw a single character at current position
- * @param ch character to draw 
+ * @param ch character to draw
  * @return: void
  */
 void vt_draw_char(char ch)
@@ -157,7 +157,7 @@ void vt_draw_char(char ch)
 /**
  * @description: Draw a string at current position
  * @param str string to draw
- * @return: 
+ * @return:
  */
 void vt_draw_str(char* str)
 {
@@ -166,9 +166,9 @@ void vt_draw_str(char* str)
 
 /**
  * @description: Draw a single character at (row, col)
- * @param row 
- * @param col 
- * @param ch 
+ * @param row
+ * @param col
+ * @param ch
  * @return: void
  */
 void vt_draw_char_at(uint16_t row, uint16_t col, char ch)
@@ -179,9 +179,9 @@ void vt_draw_char_at(uint16_t row, uint16_t col, char ch)
 
 /**
  * @description: Draw a string at (row, col)
- * @param row 
- * @param col 
- * @param ch 
+ * @param row
+ * @param col
+ * @param ch
  * @return: void
  */
 void vt_draw_str_at(uint16_t row, uint16_t col, char* ch)
@@ -210,10 +210,10 @@ void vt_draw_hline(uint16_t row, uint16_t col, uint16_t len, char ch)
 
 /**
  * @description: Draw a vertical line beginning at (row, col) with length of (len)
- * @param row 
- * @param col 
- * @param len 
- * @param ch 
+ * @param row
+ * @param col
+ * @param len
+ * @param ch
  * @return: void
  */
 void vt_draw_vline(uint16_t row, uint16_t col, uint16_t len, char ch)
@@ -275,12 +275,12 @@ void vt_draw_box(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_col
  * @param  s_col        starting column
  * @param  n_rows       width
  * @param  n_cols       height
- * @param  bitmap 
+ * @param  bitmap
  * @param  color_on     display background
  * @param  color off    non-display background
  * @return: void
  */
-void vt_draw_bitmap(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, const uint8_t* bitmap, 
+void vt_draw_bitmap(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, const uint8_t* bitmap,
                     vt_back_color color_on, vt_back_color color_off)
 {
     uint16_t row = 0;

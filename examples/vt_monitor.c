@@ -105,7 +105,7 @@ static rt_list_t *list_get_next(rt_list_t *current, list_get_next_t *arg)
             break;
         }
     }
-    
+
     rt_hw_interrupt_enable(level);
     arg->nr_out = nr;
     return node;
@@ -126,11 +126,11 @@ long vt_list_thread(void)
     maxlen = RT_NAME_MAX;
 
 #ifdef RT_USING_SMP
-    printf("%-*.s cpu pri  status      sp     stack size max used left tick  error\n", maxlen, item_title); 
+    printf("%-*.s cpu pri  status      sp     stack size max used left tick  error\n", maxlen, item_title);
     object_split(maxlen);
     printf(     "--- ---  ------- ---------- ----------  ------  ---------- ---\n");
 #else
-    printf("    %-*.s pri  status      sp     stack size max used left tick  error\n", maxlen, item_title); 
+    printf("    %-*.s pri  status      sp     stack size max used left tick  error\n", maxlen, item_title);
     object_split(maxlen);
     printf(     "----  ------- ---------- ----------  ------  ---------- ---\n");
 #endif /*RT_USING_SMP*/
