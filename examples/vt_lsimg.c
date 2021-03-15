@@ -20,7 +20,7 @@ typedef struct {
 /* User defined input funciton  */
 /*------------------------------*/
 
-uint16_t in_func (JDEC* jd, uint8_t* buff, uint16_t nbyte)
+uint16_t vt_in_func (JDEC* jd, uint8_t* buff, uint16_t nbyte)
 {
     IODEV *dev = (IODEV*)jd->device;   /* Device identifier for the session (5th argument of jd_prepare function) */
 
@@ -39,7 +39,7 @@ uint16_t in_func (JDEC* jd, uint8_t* buff, uint16_t nbyte)
 /* User defined output funciton */
 /*------------------------------*/
 
-uint16_t out_func (JDEC* jd, void* bitmap, JRECT* rect)
+uint16_t vt_out_func (JDEC* jd, void* bitmap, JRECT* rect)
 {
     IODEV *dev = (IODEV*)jd->device;
     uint8_t *src, *dst;
@@ -85,7 +85,7 @@ int lsimg (int argc, char* argv[])
     work = rt_malloc(3100);
 
     /* Prepare to decompress */
-    res = jd_prepare(&jdec, in_func, work, 3100, &devid);
+    res = jd_prepare(&jdec, vt_in_func, work, 3100, &devid);
     if (res == JDR_OK) {
         /* Ready to dcompress. Image info is available here. */
         rt_kprintf("Image dimensions: %u by %u. %u bytes used.\n", jdec.width, jdec.height, 3100 - jdec.sz_pool);
@@ -93,7 +93,7 @@ int lsimg (int argc, char* argv[])
         devid.fbuf = rt_malloc(3 * jdec.width * jdec.height); /* Frame buffer for output image (assuming RGB888 cfg) */
         devid.wfbuf = jdec.width;
 
-        res = jd_decomp(&jdec, out_func, 0);   /* Start to decompress with 1/1 scaling */
+        res = jd_decomp(&jdec, vt_out_func, 0);   /* Start to decompress with 1/1 scaling */
         if (res == JDR_OK) {
             /* Decompression succeeded. You have the decompressed image in the frame buffer here. */
         } else {
