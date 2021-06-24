@@ -49,9 +49,12 @@ typedef enum
 
 void vt_clear(void);
 void vt_clear_scrollback(void);
+void vt_clear_line(void);
 void vt_clearall(void);
 void vt_clear_attr(void);
 
+void vt_restore_cursor(void);
+void vt_store_cursor(void);
 void vt_hide_cursor(void);
 void vt_show_cursor(void);
 
