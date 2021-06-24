@@ -32,6 +32,16 @@ void vt_clear_scrollback(void)
 }
 
 /**
+ * @description: Clear line after cursor.
+ * @param void
+ * @return: void
+ */
+void vt_clear_line(void) 
+{
+    printf("\033[K");
+}
+
+/**
  * @description: Clear screen & delete all lines saved in the scrollback buffer & move cursor to (0,0)
  * @param void
  * @return: void
@@ -122,6 +132,26 @@ void vt_hide_cursor(void)
 void vt_show_cursor(void)
 {
     printf("\033[?25h");
+}
+
+/**
+ * @description: Save cursor
+ * @param void
+ * @return: void
+ */
+void vt_store_cursor(void) 
+{
+    printf("\033[s");
+}
+
+/**
+ * @description: Load cursor
+ * @param void
+ * @return: void
+ */
+void vt_restore_cursor(void) 
+{
+    printf("\033[u");
 }
 
 /**
