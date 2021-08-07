@@ -6,12 +6,9 @@
  * @LastEditors: Please set LastEditors
  */
 
+#include <stdlib.h>
 #include <rtthread.h>
 #include <rthw.h>
-#include <finsh.h>
-#include <stdio.h>
-#include <string.h>
-
 #include "vt100.h"
 
 #define LIST_FIND_OBJ_NR 8
@@ -27,8 +24,8 @@ typedef struct
 
 rt_inline void object_split(int len)
 {
-    printf("|    ");
-    while (len--) printf("-");
+    rt_kprintf("|    ");
+    while (len--) rt_kprintf("-");
 }
 
 static void list_find_init(list_get_next_t *p, rt_uint8_t type, rt_list_t **array, int nr)
@@ -112,7 +109,7 @@ static rt_list_t *list_get_next(rt_list_t *current, list_get_next_t *arg)
 }
 
 
-long vt_list_thread(void)
+static void vt_list_thread(void)
 {
     rt_ubase_t level;
     list_get_next_t find_arg;
@@ -126,13 +123,13 @@ long vt_list_thread(void)
     maxlen = RT_NAME_MAX;
 
 #ifdef RT_USING_SMP
-    printf("%-*.s cpu pri  status      sp     stack size max used left tick  error\n", maxlen, item_title);
+    rt_kprintf("%-*.s cpu pri  status      sp     stack size max used left tick  error\n", maxlen, item_title);
     object_split(maxlen);
-    printf(     "--- ---  ------- ---------- ----------  ------  ---------- ---\n");
+    rt_kprintf(     "--- ---  ------- ---------- ----------  ------  ---------- ---\n");
 #else
-    printf("    %-*.s pri  status      sp     stack size max used left tick  error\n", maxlen, item_title);
+    rt_kprintf("    %-*.s pri  status      sp     stack size max used left tick  error\n", maxlen, item_title);
     object_split(maxlen);
-    printf(     "----  ------- ---------- ----------  ------  ---------- ---\n");
+    rt_kprintf(     "----  ------- ---------- ----------  ------  ---------- ---\n");
 #endif /*RT_USING_SMP*/
 
     do
@@ -154,7 +151,7 @@ long vt_list_thread(void)
                     continue;
                 }
                 /* copy info */
-                memcpy(&thread_info, obj, sizeof thread_info);
+                rt_memcpy(&thread_info, obj, sizeof thread_info);
                 rt_hw_interrupt_enable(level);
 
                 thread = (struct rt_thread*)obj;
@@ -164,25 +161,25 @@ long vt_list_thread(void)
 
 #ifdef RT_USING_SMP
                     if (thread->oncpu != RT_CPU_DETACHED)
-                        printf("|    %-*.*s %3d %3d ", maxlen, RT_NAME_MAX, thread->name, thread->oncpu, thread->current_priority);
+                        rt_kprintf("|    %-*.*s %3d %3d ", maxlen, RT_NAME_MAX, thread->name, thread->oncpu, thread->current_priority);
                     else
-                        printf("|    %-*.*s N/A %3d ", maxlen, RT_NAME_MAX, thread->name, thread->current_priority);
+                        rt_kprintf("|    %-*.*s N/A %3d ", maxlen, RT_NAME_MAX, thread->name, thread->current_priority);
 
 #else
-                    printf("|    %-*.*s %3d ", maxlen, RT_NAME_MAX, thread->name, thread->current_priority);
+                    rt_kprintf("|    %-*.*s %3d ", maxlen, RT_NAME_MAX, thread->name, thread->current_priority);
 #endif /*RT_USING_SMP*/
                     stat = (thread->stat & RT_THREAD_STAT_MASK);
-                    if (stat == RT_THREAD_READY)        printf(" ready  ");
-                    else if (stat == RT_THREAD_SUSPEND) printf(" suspend");
-                    else if (stat == RT_THREAD_INIT)    printf(" init   ");
-                    else if (stat == RT_THREAD_CLOSE)   printf(" close  ");
-                    else if (stat == RT_THREAD_RUNNING) printf(" running");
+                    if (stat == RT_THREAD_READY)        rt_kprintf(" ready  ");
+                    else if (stat == RT_THREAD_SUSPEND) rt_kprintf(" suspend");
+                    else if (stat == RT_THREAD_INIT)    rt_kprintf(" init   ");
+                    else if (stat == RT_THREAD_CLOSE)   rt_kprintf(" close  ");
+                    else if (stat == RT_THREAD_RUNNING) rt_kprintf(" running");
 
 #if defined(ARCH_CPU_STACK_GROWS_UPWARD)
                     ptr = (rt_uint8_t *)thread->stack_addr + thread->stack_size - 1;
                     while (*ptr == '#')ptr --;
 
-                    printf(" 0x%08x 0x%08x    %02d%%   0x%08x %03d\n",
+                    rt_kprintf(" 0x%08x 0x%08x    %02d%%   0x%08x %03d\n",
                             ((rt_ubase_t)thread->sp - (rt_ubase_t)thread->stack_addr),
                             thread->stack_size,
                             ((rt_ubase_t)ptr - (rt_ubase_t)thread->stack_addr) * 100 / thread->stack_size,
@@ -192,7 +189,7 @@ long vt_list_thread(void)
                     ptr = (rt_uint8_t *)thread->stack_addr;
                     while (*ptr == '#')ptr ++;
 
-                    printf(" 0x%08x 0x%08x    %02d%%   0x%08x %03d\n",
+                    rt_kprintf(" 0x%08x 0x%08x    %02d%%   0x%08x %03d\n",
                             thread->stack_size + ((rt_ubase_t)thread->stack_addr - (rt_ubase_t)thread->sp),
                             thread->stack_size,
                             (thread->stack_size - ((rt_ubase_t) ptr - (rt_ubase_t) thread->stack_addr)) * 100
@@ -205,11 +202,9 @@ long vt_list_thread(void)
         }
     }
     while (next != (rt_list_t*)RT_NULL);
-
-    return 0;
 }
 
-void vt_monitor(int argc, char* argv[])
+static void vt_monitor(int argc, char* argv[])
 {
     // Monitor Time
     int time = 10;
@@ -236,7 +231,7 @@ void vt_monitor(int argc, char* argv[])
     char rt_str[30];
     vt_draw_str_at(2, 23, " \\ | /");
     vt_draw_str_at(3, 23, "- RT -     Thread Operating System\n");
-    sprintf(rt_str, " / | \\     %ld.%ld.%ld build %s\n", RT_VERSION, RT_SUBVERSION, RT_REVISION, __DATE__);
+    rt_sprintf(rt_str, " / | \\     %ld.%ld.%ld build %s\n", RT_VERSION, RT_SUBVERSION, RT_REVISION, __DATE__);
     vt_draw_str_at(4, 23, rt_str);
     vt_draw_str_at(5, 23, " 2006 - 2019 Copyright by rt-thread team\n");
 
@@ -245,7 +240,6 @@ void vt_monitor(int argc, char* argv[])
     vt_set_bg_color(VT_B_GREEN);
     vt_draw_hline(7, 1, 78, ' ');
     vt_draw_str_at(7, 33, "Thread Monitor");
-    fflush(NULL);
 
     // Update
     for(rt_uint8_t i = time; i > 0; i--)
@@ -257,17 +251,16 @@ void vt_monitor(int argc, char* argv[])
 
         vt_draw_hline(23, 0, 80, ' ');
         char msg[30];
-        sprintf(msg, "Exit in %d seconds", i);
+        rt_sprintf(msg, "Exit in %d seconds", i);
         vt_draw_str_at(23, 0, msg);
 
-        fflush(NULL);
         rt_thread_mdelay(1000);
     }
 
     vt_set_font_color(VT_F_WHITE);
     vt_set_bg_color(VT_B_BLACK);
     vt_move_to(23, 0);
-    printf("\n");
+    rt_kprintf("\n");
 
     vt_clear_attr();
     vt_show_cursor();

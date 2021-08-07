@@ -9,7 +9,7 @@
 #ifndef __VT100_H__
 #define __VT100_H__
 
-#include <stdint.h>
+#include <rtdef.h>
 
 // http://ascii-table.com/ansi-escape-sequences.php
 /*             VT100              */
@@ -58,33 +58,33 @@ void vt_store_cursor(void);
 void vt_hide_cursor(void);
 void vt_show_cursor(void);
 
-void vt_move_up(uint16_t step);
-void vt_move_down(uint16_t step);
-void vt_move_right(uint16_t step);
-void vt_move_left(uint16_t step);
-void vt_move_to(uint16_t row, uint16_t col);
+void vt_move_up(rt_uint16_t step);
+void vt_move_down(rt_uint16_t step);
+void vt_move_right(rt_uint16_t step);
+void vt_move_left(rt_uint16_t step);
+void vt_move_to(rt_uint16_t row, rt_uint16_t col);
 
 void vt_set_font_color(vt_fore_color color);
 void vt_set_bg_color(vt_back_color color);
 
 void vt_draw_char(char ch);
-void vt_draw_char_at(uint16_t row, uint16_t col, char ch);
+void vt_draw_char_at(rt_uint16_t row, rt_uint16_t col, char ch);
 void vt_draw_str(char* str);
-void vt_draw_str_at(uint16_t row, uint16_t col, char* ch);
+void vt_draw_str_at(rt_uint16_t row, rt_uint16_t col, char* ch);
 
-void vt_draw_hline(uint16_t row, uint16_t col, uint16_t len, char ch);
-void vt_draw_vline(uint16_t row, uint16_t col, uint16_t len, char ch);
+void vt_draw_hline(rt_uint16_t row, rt_uint16_t col, rt_uint16_t len, char ch);
+void vt_draw_vline(rt_uint16_t row, rt_uint16_t col, rt_uint16_t len, char ch);
 
-void vt_fill_box(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, char ch);
-void vt_draw_box(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, char h_fill, char v_fill, char c_fill);
+void vt_fill_box(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, char ch);
+void vt_draw_box(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, char h_fill, char v_fill, char c_fill);
 
-void vt_draw_bitmap(uint16_t s_row, uint16_t s_col, uint16_t n_rows, uint16_t n_cols, const uint8_t* bitmap,
+void vt_draw_bitmap(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, const uint8_t* bitmap,
                     vt_back_color color_on, vt_back_color color_off);
 
 /* channel width height */
-void vt_draw_rgb888_cwh(uint8_t* buffer, uint16_t n_rows, uint16_t n_cols);
+void vt_draw_rgb888_cwh(uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols);
 
 /* width height channel */
-void vt_draw_rgb888_whc(uint8_t* buffer, uint16_t n_rows, uint16_t n_cols);
+void vt_draw_rgb888_whc(uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols);
 
 #endif /*__VT100_H__*/

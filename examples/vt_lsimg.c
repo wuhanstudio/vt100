@@ -4,30 +4,29 @@
 
 #include <rtthread.h>
 #include <stdio.h>
-#include <string.h>
-#include "tjpgd.h"
+#include <tjpgd.h>
 #include <vt100.h>
 
 /* User defined device identifier */
 typedef struct {
     FILE *fp;          /* File pointer for input function */
-    uint8_t *fbuf;     /* Pointer to the frame buffer for output function */
-    uint16_t wfbuf;    /* Width of the frame buffer [pix] */
-} IODEV;
+    rt_uint8_t *fbuf;     /* Pointer to the frame buffer for output function */
+    rt_uint16_t wfbuf;    /* Width of the frame buffer [pix] */
+}IODEV;
 
 
 /*------------------------------*/
 /* User defined input funciton  */
 /*------------------------------*/
 
-uint16_t vt_in_func (JDEC* jd, uint8_t* buff, uint16_t nbyte)
+static unsigned int vt_in_func (JDEC* jd, rt_uint8_t* buff, unsigned int nbyte)
 {
     IODEV *dev = (IODEV*)jd->device;   /* Device identifier for the session (5th argument of jd_prepare function) */
 
 
     if (buff) {
         /* Read bytes from input stream */
-        return (uint16_t)fread(buff, 1, nbyte, dev->fp);
+        return (rt_uint16_t)fread(buff, 1, nbyte, dev->fp);
     } else {
         /* Remove bytes from input stream */
         return fseek(dev->fp, nbyte, SEEK_CUR) ? 0 : nbyte;
@@ -39,11 +38,11 @@ uint16_t vt_in_func (JDEC* jd, uint8_t* buff, uint16_t nbyte)
 /* User defined output funciton */
 /*------------------------------*/
 
-uint16_t vt_out_func (JDEC* jd, void* bitmap, JRECT* rect)
+static int vt_out_func (JDEC* jd, void* bitmap, JRECT* rect)
 {
     IODEV *dev = (IODEV*)jd->device;
-    uint8_t *src, *dst;
-    uint16_t y, bws, bwd;
+    rt_uint8_t *src, *dst;
+    rt_uint16_t y, bws, bwd;
 
 
     /* Put progress indicator */
@@ -52,12 +51,12 @@ uint16_t vt_out_func (JDEC* jd, void* bitmap, JRECT* rect)
     }
 
     /* Copy the decompressed RGB rectanglar to the frame buffer (assuming RGB888 cfg) */
-    src = (uint8_t*)bitmap;
+    src = (rt_uint8_t*)bitmap;
     dst = dev->fbuf + 3 * (rect->top * dev->wfbuf + rect->left);  /* Left-top of destination rectangular */
     bws = 3 * (rect->right - rect->left + 1);     /* Width of source rectangular [byte] */
     bwd = 3 * dev->wfbuf;                         /* Width of frame buffer [byte] */
     for (y = rect->top; y <= rect->bottom; y++) {
-        memcpy(dst, src, bws);   /* Copy a line */
+        rt_memcpy(dst, src, bws);   /* Copy a line */
         src += bws; dst += bwd;  /* Next line */
     }
 
