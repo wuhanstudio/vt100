@@ -1,10 +1,8 @@
 #include <rtthread.h>
-#include <stdio.h>
-
 #include <vt100.h>
 #include "minions.h"
 
-void vt_imshow(int argc, char* arvg[])
+static void vt_imshow(int argc, char* arvg[])
 {
     vt_draw_rgb888_cwh(minions, minions_h, minions_w);
 }

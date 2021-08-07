@@ -47,26 +47,23 @@
 /*                                              by Toyoda Masashi 1992/12/11 */
 
 #include <rtthread.h>
-#include <stdio.h>
-// #include <signal.h>
 #include <vt100.h>
-
 #include "vt_sl.h"
 
-void add_smoke(int y, int x);
-void add_man(int y, int x);
-int add_C51(int x);
-int add_D51(int x);
-int add_sl(int x);
-void option(char *str);
-int my_mvaddstr(int y, int x, char *str);
+static void add_smoke(int y, int x);
+static void add_man(int y, int x);
+static int add_C51(int x);
+static int add_D51(int x);
+static int add_sl(int x);
+static void option(char *str);
+static int my_mvaddstr(int y, int x, char *str);
 
-int ACCIDENT  = 0;
-int LOGO      = 0;
-int FLY       = 0;
-int C51       = 0;
+static int ACCIDENT  = 0;
+static int LOGO      = 0;
+static int FLY       = 0;
+static int C51       = 0;
 
-int my_mvaddstr(int y, int x, char *str)
+static int my_mvaddstr(int y, int x, char *str)
 {
     for ( ; x < 0; ++x, ++str)
         if (*str == '\0')  return RT_ERROR;
@@ -75,10 +72,8 @@ int my_mvaddstr(int y, int x, char *str)
     return RT_EOK;
 }
 
-void option(char *str)
+static void option(char *str)
 {
-    extern int ACCIDENT, LOGO, FLY, C51;
-
     while (*str != '\0') {
         switch (*str++) {
             case 'a': ACCIDENT = 1; break;
@@ -90,43 +85,7 @@ void option(char *str)
     }
 }
 
-void vt_sl(int argc, char *argv[])
-{
-    int x, i;
-
-    for (i = 1; i < argc; ++i) {
-        if (*argv[i] == '-') {
-            option(argv[i] + 1);
-        }
-    }
-
-    vt_hide_cursor();
-    vt_clear();
-
-    for (x = COLS - 1; ; --x) {
-        if (LOGO == 1) {
-            if (add_sl(x) == RT_ERROR) break;
-        }
-        else if (C51 == 1) {
-            if (add_C51(x) == RT_ERROR) break;
-        }
-        else {
-            if (add_D51(x) == RT_ERROR) break;
-        }
-    }
-
-    vt_set_font_color(VT_F_WHITE);
-    vt_set_bg_color(VT_B_BLACK);
-    vt_move_to(23, 0);
-    printf("\n");
-
-    vt_clear_attr();
-    vt_show_cursor();
-}
-MSH_CMD_EXPORT_ALIAS(vt_sl, sl, Steam Locomotive)
-
-
-int add_sl(int x)
+static int add_sl(int x)
 {
     static char *sl[LOGOPATTERNS][LOGOHEIGHT + 1]
         = {{LOGO1, LOGO2, LOGO3, LOGO4, LWHL11, LWHL12, DELLN},
@@ -167,7 +126,7 @@ int add_sl(int x)
 }
 
 
-int add_D51(int x)
+static int add_D51(int x)
 {
     static char *d51[D51PATTERNS][D51HEIGHT + 1]
         = {{D51STR1, D51STR2, D51STR3, D51STR4, D51STR5, D51STR6, D51STR7,
@@ -207,7 +166,7 @@ int add_D51(int x)
     return RT_EOK;
 }
 
-int add_C51(int x)
+static int add_C51(int x)
 {
     static char *c51[C51PATTERNS][C51HEIGHT + 1]
         = {{C51STR1, C51STR2, C51STR3, C51STR4, C51STR5, C51STR6, C51STR7,
@@ -248,7 +207,7 @@ int add_C51(int x)
 }
 
 
-void add_man(int y, int x)
+static void add_man(int y, int x)
 {
     static char *man[2][2] = {{"", "(O)"}, {"Help!", "\\O/"}};
     int i;
@@ -259,7 +218,7 @@ void add_man(int y, int x)
 }
 
 
-void add_smoke(int y, int x)
+static void add_smoke(int y, int x)
 #define SMOKEPTNS        16
 {
     static struct smokes {
@@ -301,3 +260,38 @@ void add_smoke(int y, int x)
         sum ++;
     }
 }
+
+static void vt_sl(int argc, char *argv[])
+{
+    int x, i;
+
+    for (i = 1; i < argc; ++i) {
+        if (*argv[i] == '-') {
+            option(argv[i] + 1);
+        }
+    }
+
+    vt_hide_cursor();
+    vt_clear();
+
+    for (x = COLS - 1; ; --x) {
+        if (LOGO == 1) {
+            if (add_sl(x) == RT_ERROR) break;
+        }
+        else if (C51 == 1) {
+            if (add_C51(x) == RT_ERROR) break;
+        }
+        else {
+            if (add_D51(x) == RT_ERROR) break;
+        }
+    }
+
+    vt_set_font_color(VT_F_WHITE);
+    vt_set_bg_color(VT_B_BLACK);
+    vt_move_to(23, 0);
+    rt_kprintf("\n");
+
+    vt_clear_attr();
+    vt_show_cursor();
+}
+MSH_CMD_EXPORT_ALIAS(vt_sl, sl, Steam Locomotive)
