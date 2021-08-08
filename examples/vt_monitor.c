@@ -218,7 +218,7 @@ static void vt_monitor(int argc, char* argv[])
 
     // Monitor Frame
     vt_hide_cursor();
-    vt_clear();
+    vt_store_screen();
 
     vt_set_font_color(VT_F_WHITE);
     vt_set_bg_color(VT_B_BLACK);
@@ -263,6 +263,7 @@ static void vt_monitor(int argc, char* argv[])
     rt_kprintf("\n");
 
     vt_clear_attr();
+    vt_restore_screen();
     vt_show_cursor();
 
 }

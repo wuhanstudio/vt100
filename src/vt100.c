@@ -153,6 +153,27 @@ void vt_restore_cursor(void)
 }
 
 /**
+ * @description: Save cursor, use alternate screen buffer, clear screen
+ *               You can use vt_restore_screen() to restore the screen
+ * @param void
+ * @return: void
+ */
+void vt_store_screen(void)
+{
+    rt_kprintf("\033[?1049h");
+}
+
+/**
+ * @description: Use normal screen buffer, restore cursor
+ * @param void
+ * @return: void
+ */
+void vt_restore_screen(void)
+{
+    rt_kprintf("\033[?1049l");
+}
+
+/**
  * @description: Set font color
  * @param color font color
  * @return: void
