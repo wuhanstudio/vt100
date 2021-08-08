@@ -174,6 +174,16 @@ void vt_restore_screen(void)
 }
 
 /**
+ * @description: Set the screen size of the terminal
+ * @param cols & rows (unit: size of ONE character)
+ * @return: void
+ */
+void vt_set_screen_size(rt_uint8_t col, rt_uint8_t row)
+{
+    rt_kprintf("\x1b[8;%d;%dt", col, row);
+}
+
+/**
  * @description: Set font color
  * @param color font color
  * @return: void
