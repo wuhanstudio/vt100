@@ -395,3 +395,21 @@ void vt_draw_rgb888_whc(rt_uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_co
         rt_kprintf("\n");
     }
 }
+
+/**
+ * @description: print string like a typer (animation)
+ * @param str: string pointer
+ * @param delayms: delay time between characters
+ * @return: void
+ */
+void vt_string_typer(char *str, rt_uint8_t delayms)
+{
+    rt_uint8_t len, i;
+
+    len = rt_strlen(str);
+    for(i=0; i<len; i++)
+    {
+        rt_kprintf("%c",str[i]);
+        rt_thread_mdelay(delayms);
+    }
+}

@@ -92,4 +92,6 @@ void vt_draw_rgb888_cwh(uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols)
 /* width height channel */
 void vt_draw_rgb888_whc(uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols);
 
+void vt_string_typer(char *str, rt_uint8_t delayms);
+
 #endif /*__VT100_H__*/
