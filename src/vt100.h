@@ -58,6 +58,9 @@ void vt_store_cursor(void);
 void vt_hide_cursor(void);
 void vt_show_cursor(void);
 
+void vt_store_screen(void);
+void vt_restore_screen(void);
+
 void vt_move_up(rt_uint16_t step);
 void vt_move_down(rt_uint16_t step);
 void vt_move_right(rt_uint16_t step);
