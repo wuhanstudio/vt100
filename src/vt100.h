@@ -61,6 +61,8 @@ void vt_show_cursor(void);
 void vt_store_screen(void);
 void vt_restore_screen(void);
 
+void vt_set_screen_size(rt_uint8_t col, rt_uint8_t row);
+
 void vt_move_up(rt_uint16_t step);
 void vt_move_down(rt_uint16_t step);
 void vt_move_right(rt_uint16_t step);
