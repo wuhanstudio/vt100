@@ -12,9 +12,6 @@ if GetDepend('VT100_USING_MONITOR'):
 if GetDepend('VT100_USING_COLOR'):
 	src    += Glob('examples/vt_color.c')
 
-if GetDepend('VT100_USING_SL'):
-	src    += Glob('examples/vt_sl.c')
-
 if GetDepend('VT100_USING_IMGBUF'):
 	src    += Glob('examples/vt_imshow.c')
 
@@ -24,8 +21,6 @@ if GetDepend('VT100_USING_LSIMG'):
 path   =  [cwd + '/src']
 path   += [cwd + '/examples']
 
-LOCAL_CCFLAGS = ''
-
-group = DefineGroup('vt100', src, depend = ['PKG_USING_VT100'], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS)
+group = DefineGroup('vt100', src, depend = ['PKG_USING_VT100'], CPPPATH = path)
 
 Return('group')
