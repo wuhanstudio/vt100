@@ -28,13 +28,7 @@ MSH_CMD_EXPORT(vt_rgb_buf, draw RGB image in console)
 
 ![](doc/minions.png)
 
-### 奔跑的小火车
 
-![](./doc/sl.gif)
-
-小火车还有不同类型
-
-![](./doc/sl_c.png)
 
 ### 实时控制台
 
