@@ -61,7 +61,13 @@ void vt_show_cursor(void);
 void vt_store_screen(void);
 void vt_restore_screen(void);
 
-void vt_set_screen_size(rt_uint8_t col, rt_uint8_t row);
+void vt_set_terminal_size(rt_uint16_t col, rt_uint16_t row);
+void vt_set_terminal_position(rt_uint16_t col_px, rt_uint16_t row_px);
+#ifdef RT_USING_POSIX
+void vt_get_terminal_size(rt_uint16_t *col, rt_uint16_t *row);
+#endif /* RT_USING_POSIX */
+void vt_maximize_terminal(void);
+void vt_unmaximize_terminal(void);
 
 void vt_move_up(rt_uint16_t step);
 void vt_move_down(rt_uint16_t step);
