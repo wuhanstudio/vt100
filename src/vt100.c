@@ -174,13 +174,119 @@ void vt_restore_screen(void)
 }
 
 /**
- * @description: Set the screen size of the terminal
+ * @description: Set the terminal size of the terminal
  * @param cols & rows (unit: size of ONE character)
  * @return: void
  */
-void vt_set_screen_size(rt_uint8_t col, rt_uint8_t row)
+void vt_set_terminal_size(rt_uint16_t col, rt_uint16_t row)
 {
     rt_kprintf("\x1b[8;%d;%dt", col, row);
+}
+
+/**
+ * @description: Set the terminal position on the screen
+ * @param cols & rows (unit: pixel on screen)
+ * @return: void
+ */
+void vt_set_terminal_position(rt_uint16_t col_px, rt_uint16_t row_px)
+{
+    rt_kprintf("\033[3;%d;%dt", col_px, row_px);
+}
+
+#ifdef RT_USING_POSIX
+#include <stdio.h>
+#include <stdlib.h>
+/**
+ * @description: Get the terminal size of the terminal
+ * @param pointers to cols & rows (unit: size of ONE character)
+ * @return: void
+ */
+void vt_get_terminal_size(rt_uint16_t *col, rt_uint16_t *row)
+{
+#define VT_TIO_BUFLEN 20
+    char vt_tio_buf[VT_TIO_BUFLEN];
+    unsigned char cnt1, cnt2, cnt3, i;
+    char row_s[4], col_s[4];
+    char *p;
+
+    if(rt_thread_self() != rt_thread_find("tshell"))
+    {
+        *col = 0;
+        *row = 0;
+        return;
+    }
+
+    rt_memset(vt_tio_buf, 0, VT_TIO_BUFLEN);
+
+    /* send the command to terminal for getting the window size of the terminal */
+    rt_kprintf("\033[18t");
+
+    /* waiting for the response from the terminal */
+    i = 0;
+    while(i < VT_TIO_BUFLEN)
+    {
+        vt_tio_buf[i] = getchar();
+        if(vt_tio_buf[i] != 't')
+        {
+            i ++;
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    /* interpreting data eg: "\033[8;1;15t" which means row is 1 and col is 15 (unit: size of ONE character)*/
+    rt_memset(row_s,0,4);
+    rt_memset(col_s,0,4);
+    cnt1 = 0;
+    while(vt_tio_buf[cnt1] != ';' && cnt1 < VT_TIO_BUFLEN)
+    {
+        cnt1++;
+    }
+    cnt2 = ++cnt1;
+    while(vt_tio_buf[cnt2] != ';' && cnt2 < VT_TIO_BUFLEN)
+    {
+        cnt2++;
+    }
+    p = row_s;
+    while(cnt1 < cnt2)
+    {
+        *p++ = vt_tio_buf[cnt1++];
+    }
+    p = col_s;
+    cnt2++;
+    cnt3 = rt_strlen(vt_tio_buf) - 1;
+    while(cnt2 < cnt3)
+    {
+        *p++ = vt_tio_buf[cnt2++];
+    }
+
+    /* load the window size date */
+    *col = atoi(col_s);
+    *row = atoi(row_s);
+#undef VT_TIO_BUFLEN
+}
+#endif /* RT_USING_POSIX */
+
+/**
+ * @description: Maximize the window of terminal
+ * @param void
+ * @return: void
+ */
+void vt_maximize_terminal(void)
+{
+    rt_kprintf("\033[9;1t");
+}
+
+/**
+ * @description: Restore the window size of terminal before maximization.
+ * @param void
+ * @return: void
+ */
+void vt_unmaximize_terminal(void)
+{
+    rt_kprintf("\033[9;0t");
 }
 
 /**
