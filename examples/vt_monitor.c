@@ -208,6 +208,8 @@ static void vt_monitor(int argc, char* argv[])
 {
     // Monitor Time
     int time = 10;
+    char rt_str[30];
+
     if(argc > 1)
     {
         time = atoi(argv[1]);
@@ -216,10 +218,14 @@ static void vt_monitor(int argc, char* argv[])
         }
     }
 
-    // Monitor Frame
-    vt_hide_cursor();
     vt_store_screen();
+    vt_clearall();
 
+    vt_set_terminal_default_size();
+
+    vt_hide_cursor();
+
+    // Monitor Frame
     vt_set_font_color(VT_F_WHITE);
     vt_set_bg_color(VT_B_BLACK);
     vt_draw_box(0, 0, 23, 80, '-', '|', '+');
@@ -228,7 +234,6 @@ static void vt_monitor(int argc, char* argv[])
     vt_set_bg_color(VT_B_BLACK);
     vt_fill_box(1, 1, 21, 78, ' ');
 
-    char rt_str[30];
     vt_draw_str_at(2, 23, " \\ | /");
     vt_draw_str_at(3, 23, "- RT -     Thread Operating System\n");
     rt_sprintf(rt_str, " / | \\     %ld.%ld.%ld build %s\n", RT_VERSION, RT_SUBVERSION, RT_REVISION, __DATE__);
@@ -244,13 +249,13 @@ static void vt_monitor(int argc, char* argv[])
     // Update
     for(rt_uint8_t i = time; i > 0; i--)
     {
+        char msg[30];
         vt_move_to(8, 1);
         vt_set_font_color(VT_F_WHITE);
         vt_set_bg_color(VT_B_BLACK);
         vt_list_thread();
 
         vt_draw_hline(23, 0, 80, ' ');
-        char msg[30];
         rt_sprintf(msg, "Exit in %d seconds", i);
         vt_draw_str_at(23, 0, msg);
 

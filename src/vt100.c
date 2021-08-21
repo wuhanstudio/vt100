@@ -34,7 +34,7 @@ void vt_clear_scrollback(void)
  * @param void
  * @return: void
  */
-void vt_clear_line(void) 
+void vt_clear_line(void)
 {
     rt_kprintf("\033[K");
 }
@@ -137,7 +137,7 @@ void vt_show_cursor(void)
  * @param void
  * @return: void
  */
-void vt_store_cursor(void) 
+void vt_store_cursor(void)
 {
     rt_kprintf("\033[s");
 }
@@ -147,7 +147,7 @@ void vt_store_cursor(void)
  * @param void
  * @return: void
  */
-void vt_restore_cursor(void) 
+void vt_restore_cursor(void)
 {
     rt_kprintf("\033[u");
 }
@@ -175,22 +175,34 @@ void vt_restore_screen(void)
 
 /**
  * @description: Set the terminal size of the terminal
- * @param cols & rows (unit: size of ONE character)
+ * @param row (unit: size of ONE character)
+ * @param col (unit: size of ONE character)
  * @return: void
  */
-void vt_set_terminal_size(rt_uint16_t col, rt_uint16_t row)
+void vt_set_terminal_size(rt_uint16_t row, rt_uint16_t col)
 {
-    rt_kprintf("\x1b[8;%d;%dt", col, row);
+    rt_kprintf("\x1b[8;%d;%dt", row, col);
+}
+
+/**
+ * @description: Set the terminal size as default size (24x80)
+ * @param:  void
+ * @return: void
+ */
+void vt_set_terminal_default_size(void)
+{
+    vt_set_terminal_size(VT_DEFAULT_ROW_SIZE, VT_DEFAULT_COL_SIZE);
 }
 
 /**
  * @description: Set the terminal position on the screen
- * @param cols & rows (unit: pixel on screen)
+ * @param col_px (unit: pixel on screen)
+ * @param row_px (unit: pixel on screen)
  * @return: void
  */
-void vt_set_terminal_position(rt_uint16_t col_px, rt_uint16_t row_px)
+void vt_set_terminal_position(rt_uint16_t row_px, rt_uint16_t col_px)
 {
-    rt_kprintf("\033[3;%d;%dt", col_px, row_px);
+    rt_kprintf("\033[3;%d;%dt", row_px, col_px);
 }
 
 #ifdef RT_USING_POSIX
@@ -198,10 +210,10 @@ void vt_set_terminal_position(rt_uint16_t col_px, rt_uint16_t row_px)
 #include <stdlib.h>
 /**
  * @description: Get the terminal size of the terminal
- * @param pointers to cols & rows (unit: size of ONE character)
+ * @param pointers to row & col (unit: size of ONE character)
  * @return: void
  */
-void vt_get_terminal_size(rt_uint16_t *col, rt_uint16_t *row)
+void vt_get_terminal_size(rt_uint16_t *row, rt_uint16_t *col)
 {
 #define VT_TIO_BUFLEN 20
     char vt_tio_buf[VT_TIO_BUFLEN];
