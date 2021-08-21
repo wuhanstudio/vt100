@@ -184,6 +184,16 @@ void vt_set_terminal_size(rt_uint16_t col, rt_uint16_t row)
 }
 
 /**
+ * @description: Set the terminal size as default size (24x80)
+ * @param:  void
+ * @return: void
+ */
+void vt_set_terminal_default_size(void)
+{
+    vt_set_terminal_size(VT_DEFAULT_COL_SIZE, VT_DEFAULT_ROW_SIZE);
+}
+
+/**
  * @description: Set the terminal position on the screen
  * @param cols & rows (unit: pixel on screen)
  * @return: void

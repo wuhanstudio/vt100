@@ -17,9 +17,12 @@
 /* |(0, 0)              (0, 79) | */
 /* |                            | */
 /* |                            | */
-/* |(24, 0)             (24, 79)| */
+/* |(23, 0)             (23, 79)| */
 /* +----------------------------+ */
 /*                                */
+
+#define VT_DEFAULT_ROW_SIZE   80
+#define VT_DEFAULT_COL_SIZE   24
 
 /* foreground Color */
 typedef enum
@@ -62,6 +65,7 @@ void vt_store_screen(void);
 void vt_restore_screen(void);
 
 void vt_set_terminal_size(rt_uint16_t col, rt_uint16_t row);
+void vt_set_terminal_default_size(void);
 void vt_set_terminal_position(rt_uint16_t col_px, rt_uint16_t row_px);
 #ifdef RT_USING_POSIX
 void vt_get_terminal_size(rt_uint16_t *col, rt_uint16_t *row);
