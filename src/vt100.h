@@ -90,7 +90,7 @@ void vt_set_bg_color(vt_back_color color);
 void vt_draw_char(char ch);
 void vt_draw_char_at(rt_uint16_t row, rt_uint16_t col, char ch);
 void vt_draw_str(char* str);
-void vt_draw_str_at(rt_uint16_t row, rt_uint16_t col, char* ch);
+void vt_draw_str_at(rt_uint16_t row, rt_uint16_t col, char* str);
 
 void vt_draw_hline(rt_uint16_t row, rt_uint16_t col, rt_uint16_t len, char ch);
 void vt_draw_vline(rt_uint16_t row, rt_uint16_t col, rt_uint16_t len, char ch);

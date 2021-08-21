@@ -355,16 +355,16 @@ void vt_draw_char_at(rt_uint16_t row, rt_uint16_t col, char ch)
 }
 
 /**
- * @description: Draw a string at (row, col)
+ * @description: Draw a string at (row, col), auto linefeed.
  * @param row
  * @param col
- * @param ch
+ * @param str
  * @return: void
  */
-void vt_draw_str_at(rt_uint16_t row, rt_uint16_t col, char* ch)
+void vt_draw_str_at(rt_uint16_t row, rt_uint16_t col, char* str)
 {
     vt_move_to(row, col);
-    rt_kprintf("%s", ch);
+    rt_kprintf("%s", str);
 }
 
 /**
