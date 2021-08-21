@@ -51,20 +51,29 @@ typedef enum
     VT_B_WHITE  = 47
 }vt_back_color;
 
+/* clear */
 void vt_clear(void);
 void vt_clear_scrollback(void);
 void vt_clear_line(void);
 void vt_clearall(void);
+
+/* attribute */
 void vt_clear_attr(void);
 
+/* cursor */
 void vt_restore_cursor(void);
 void vt_store_cursor(void);
 void vt_hide_cursor(void);
 void vt_show_cursor(void);
+void vt_move_up(rt_uint16_t step);
+void vt_move_down(rt_uint16_t step);
+void vt_move_right(rt_uint16_t step);
+void vt_move_left(rt_uint16_t step);
+void vt_move_to(rt_uint16_t row, rt_uint16_t col);
 
+/* terminal screen */
 void vt_store_screen(void);
 void vt_restore_screen(void);
-
 void vt_set_terminal_size(rt_uint16_t row, rt_uint16_t col);
 void vt_set_terminal_default_size(void);
 void vt_set_terminal_position(rt_uint16_t row_px, rt_uint16_t col_px);
@@ -74,12 +83,7 @@ void vt_get_terminal_size(rt_uint16_t *row, rt_uint16_t *col);
 void vt_maximize_terminal(void);
 void vt_unmaximize_terminal(void);
 
-void vt_move_up(rt_uint16_t step);
-void vt_move_down(rt_uint16_t step);
-void vt_move_right(rt_uint16_t step);
-void vt_move_left(rt_uint16_t step);
-void vt_move_to(rt_uint16_t row, rt_uint16_t col);
-
+/* drawing */
 void vt_set_font_color(vt_fore_color color);
 void vt_set_bg_color(vt_back_color color);
 
