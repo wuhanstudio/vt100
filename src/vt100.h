@@ -77,9 +77,9 @@ void vt_restore_screen(void);
 void vt_set_terminal_size(rt_uint16_t row, rt_uint16_t col);
 void vt_set_terminal_default_size(void);
 void vt_set_terminal_position(rt_uint16_t row_px, rt_uint16_t col_px);
-#ifdef RT_USING_POSIX
+#if RT_VER_NUM >= 0x40004
 void vt_get_terminal_size(rt_uint16_t *row, rt_uint16_t *col);
-#endif /* RT_USING_POSIX */
+#endif /* RT_VER_NUM >= 0x40004 */
 void vt_maximize_terminal(void);
 void vt_unmaximize_terminal(void);
 

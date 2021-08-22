@@ -205,9 +205,11 @@ void vt_set_terminal_position(rt_uint16_t row_px, rt_uint16_t col_px)
     rt_kprintf("\033[3;%d;%dt", row_px, col_px);
 }
 
-#ifdef RT_USING_POSIX
+#if RT_VER_NUM >= 0x40004
 #include <stdio.h>
 #include <stdlib.h>
+extern char finsh_getchar(void);
+
 /**
  * @description: Get the terminal size of the terminal
  * @param pointers to row & col (unit: size of ONE character)
@@ -237,7 +239,7 @@ void vt_get_terminal_size(rt_uint16_t *row, rt_uint16_t *col)
     i = 0;
     while(i < VT_TIO_BUFLEN)
     {
-        vt_tio_buf[i] = getchar();
+        vt_tio_buf[i] = finsh_getchar();
         if(vt_tio_buf[i] != 't')
         {
             i ++;
@@ -274,12 +276,12 @@ void vt_get_terminal_size(rt_uint16_t *row, rt_uint16_t *col)
         *p++ = vt_tio_buf[cnt2++];
     }
 
-    /* load the window size date */
-    *col = atoi(col_s);
-    *row = atoi(row_s);
+    /* load the window size date, started from 0 */
+    *col = atoi(col_s) - 1;
+    *row = atoi(row_s) - 1;
 #undef VT_TIO_BUFLEN
 }
-#endif /* RT_USING_POSIX */
+#endif /* RT_VER_NUM >= 0x40004 */
 
 /**
  * @description: Maximize the window of terminal
