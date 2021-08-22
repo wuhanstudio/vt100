@@ -228,43 +228,43 @@ static void vt_monitor(int argc, char* argv[])
     // Monitor Frame
     vt_set_font_color(VT_F_WHITE);
     vt_set_bg_color(VT_B_BLACK);
-    vt_draw_box(0, 0, 23, 80, '-', '|', '+');
+    vt_draw_box(0, 0, 80, 23, '-', '|', '+');
 
     vt_set_font_color(VT_F_WHITE);
     vt_set_bg_color(VT_B_BLACK);
-    vt_fill_box(1, 1, 21, 78, ' ');
+    vt_fill_box(1, 1, 78, 21, ' ');
 
-    vt_draw_str_at(2, 23, " \\ | /");
-    vt_draw_str_at(3, 23, "- RT -     Thread Operating System\n");
+    vt_draw_str_at(23, 2, " \\ | /");
+    vt_draw_str_at(23, 3, "- RT -     Thread Operating System\n");
     rt_sprintf(rt_str, " / | \\     %ld.%ld.%ld build %s\n", RT_VERSION, RT_SUBVERSION, RT_REVISION, __DATE__);
-    vt_draw_str_at(4, 23, rt_str);
-    vt_draw_str_at(5, 23, " 2006 - 2019 Copyright by rt-thread team\n");
+    vt_draw_str_at(23, 4, rt_str);
+    vt_draw_str_at(23, 5, " 2006 - 2019 Copyright by rt-thread team\n");
 
     // Thread Monitor Logo
     vt_set_font_color(VT_F_BLACK);
     vt_set_bg_color(VT_B_GREEN);
-    vt_draw_hline(7, 1, 78, ' ');
-    vt_draw_str_at(7, 33, "Thread Monitor");
+    vt_draw_hline(1, 7, 78, ' ');
+    vt_draw_str_at(33, 7, "Thread Monitor");
 
     // Update
     for(rt_uint8_t i = time; i > 0; i--)
     {
         char msg[30];
-        vt_move_to(8, 1);
+        vt_move_to(1, 8);
         vt_set_font_color(VT_F_WHITE);
         vt_set_bg_color(VT_B_BLACK);
         vt_list_thread();
 
-        vt_draw_hline(23, 0, 80, ' ');
+        vt_draw_hline(0, 23, 80, ' ');
         rt_sprintf(msg, "Exit in %d seconds", i);
-        vt_draw_str_at(23, 0, msg);
+        vt_draw_str_at(0, 23, msg);
 
         rt_thread_mdelay(1000);
     }
 
     vt_set_font_color(VT_F_WHITE);
     vt_set_bg_color(VT_B_BLACK);
-    vt_move_to(23, 0);
+    vt_move_to(0, 23);
     rt_kprintf("\n");
 
     vt_clear_attr();

@@ -69,16 +69,16 @@ void vt_move_up(rt_uint16_t step);
 void vt_move_down(rt_uint16_t step);
 void vt_move_right(rt_uint16_t step);
 void vt_move_left(rt_uint16_t step);
-void vt_move_to(rt_uint16_t row, rt_uint16_t col);
+void vt_move_to(rt_uint16_t col, rt_uint16_t row);
 
 /* terminal screen */
 void vt_store_screen(void);
 void vt_restore_screen(void);
-void vt_set_terminal_size(rt_uint16_t row, rt_uint16_t col);
+void vt_set_terminal_size(rt_uint16_t col, rt_uint16_t row);
 void vt_set_terminal_default_size(void);
-void vt_set_terminal_position(rt_uint16_t row_px, rt_uint16_t col_px);
+void vt_set_terminal_position(rt_uint16_t col_px, rt_uint16_t row_px);
 #if RT_VER_NUM >= 0x40004
-void vt_get_terminal_size(rt_uint16_t *row, rt_uint16_t *col);
+void vt_get_terminal_size(rt_uint16_t *col, rt_uint16_t *row);
 #endif /* RT_VER_NUM >= 0x40004 */
 void vt_maximize_terminal(void);
 void vt_unmaximize_terminal(void);
@@ -88,23 +88,23 @@ void vt_set_font_color(vt_fore_color color);
 void vt_set_bg_color(vt_back_color color);
 
 void vt_draw_char(char ch);
-void vt_draw_char_at(rt_uint16_t row, rt_uint16_t col, char ch);
+void vt_draw_char_at(rt_uint16_t col, rt_uint16_t row, char ch);
 void vt_draw_str(char* str);
-void vt_draw_str_at(rt_uint16_t row, rt_uint16_t col, char* str);
+void vt_draw_str_at(rt_uint16_t col, rt_uint16_t row, char* str);
 
-void vt_draw_hline(rt_uint16_t row, rt_uint16_t col, rt_uint16_t len, char ch);
-void vt_draw_vline(rt_uint16_t row, rt_uint16_t col, rt_uint16_t len, char ch);
+void vt_draw_hline(rt_uint16_t col, rt_uint16_t row, rt_uint16_t len, char ch);
+void vt_draw_vline(rt_uint16_t col, rt_uint16_t row, rt_uint16_t len, char ch);
 
-void vt_fill_box(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, char ch);
-void vt_draw_box(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, char h_fill, char v_fill, char c_fill);
+void vt_fill_box(rt_uint16_t s_col, rt_uint16_t s_row, rt_uint16_t n_cols, rt_uint16_t n_rows, char ch);
+void vt_draw_box(rt_uint16_t s_col, rt_uint16_t s_row, rt_uint16_t n_cols, rt_uint16_t n_rows, char h_fill, char v_fill, char c_fill);
 
-void vt_draw_bitmap(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, const uint8_t* bitmap,
+void vt_draw_bitmap(rt_uint16_t s_col, rt_uint16_t s_row, rt_uint16_t n_cols, rt_uint16_t n_rows, const rt_uint8_t* bitmap,
                     vt_back_color color_on, vt_back_color color_off);
 
 /* channel width height */
-void vt_draw_rgb888_cwh(uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols);
+void vt_draw_rgb888_cwh(rt_uint8_t* buffer, rt_uint16_t n_cols, rt_uint16_t n_rows);
 
 /* width height channel */
-void vt_draw_rgb888_whc(uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols);
+void vt_draw_rgb888_whc(rt_uint8_t* buffer, rt_uint16_t n_cols, rt_uint16_t n_rows);
 
 #endif /*__VT100_H__*/

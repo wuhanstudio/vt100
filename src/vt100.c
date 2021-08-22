@@ -40,7 +40,7 @@ void vt_clear_line(void)
 }
 
 /**
- * @description: Clear screen & delete all lines saved in the scrollback buffer & move cursor to (0,0)
+ * @description: Clear screen & delete all lines saved in the scrollback buffer & move cursor to the beginning.
  * @param void
  * @return: void
  */
@@ -103,11 +103,11 @@ void vt_move_left(rt_uint16_t step)
 
 /**
  * @description: Move cursor to (row, column)
- * @param row destination row number, starting from 0
  * @param col destination column number, starting from 0
+ * @param row destination row number, starting from 0
  * @return: void
  */
-void vt_move_to(rt_uint16_t row, rt_uint16_t col)
+void vt_move_to(rt_uint16_t col, rt_uint16_t row)
 {
     rt_kprintf("\033[%d;%dH", row + 1, col + 1);
 }
@@ -175,11 +175,11 @@ void vt_restore_screen(void)
 
 /**
  * @description: Set the terminal size of the terminal
- * @param row (unit: size of ONE character)
  * @param col (unit: size of ONE character)
+ * @param row (unit: size of ONE character)
  * @return: void
  */
-void vt_set_terminal_size(rt_uint16_t row, rt_uint16_t col)
+void vt_set_terminal_size(rt_uint16_t col, rt_uint16_t row)
 {
     rt_kprintf("\x1b[8;%d;%dt", row, col);
 }
@@ -191,18 +191,18 @@ void vt_set_terminal_size(rt_uint16_t row, rt_uint16_t col)
  */
 void vt_set_terminal_default_size(void)
 {
-    vt_set_terminal_size(VT_DEFAULT_ROW_SIZE, VT_DEFAULT_COL_SIZE);
+    vt_set_terminal_size(VT_DEFAULT_COL_SIZE, VT_DEFAULT_ROW_SIZE);
 }
 
 /**
  * @description: Set the terminal position on the screen
- * @param col_px (unit: pixel on screen)
  * @param row_px (unit: pixel on screen)
+ * @param col_px (unit: pixel on screen)
  * @return: void
  */
-void vt_set_terminal_position(rt_uint16_t row_px, rt_uint16_t col_px)
+void vt_set_terminal_position(rt_uint16_t col_px, rt_uint16_t row_px)
 {
-    rt_kprintf("\033[3;%d;%dt", row_px, col_px);
+    rt_kprintf("\033[3;%d;%dt", row_px + 1, col_px + 1);
 }
 
 #if RT_VER_NUM >= 0x40004
@@ -215,7 +215,7 @@ extern char finsh_getchar(void);
  * @param pointers to row & col (unit: size of ONE character)
  * @return: void
  */
-void vt_get_terminal_size(rt_uint16_t *row, rt_uint16_t *col)
+void vt_get_terminal_size(rt_uint16_t *col, rt_uint16_t *row)
 {
 #define VT_TIO_BUFLEN 20
     char vt_tio_buf[VT_TIO_BUFLEN];
@@ -276,9 +276,9 @@ void vt_get_terminal_size(rt_uint16_t *row, rt_uint16_t *col)
         *p++ = vt_tio_buf[cnt2++];
     }
 
-    /* load the window size date, started from 0 */
-    *col = atoi(col_s) - 1;
-    *row = atoi(row_s) - 1;
+    /* load the window size date */
+    *col = atoi(col_s);
+    *row = atoi(row_s);
 #undef VT_TIO_BUFLEN
 }
 #endif /* RT_VER_NUM >= 0x40004 */
@@ -344,80 +344,80 @@ void vt_draw_str(char* str)
 }
 
 /**
- * @description: Draw a single character at (row, col)
- * @param row
+ * @description: Draw a single character at (col, row)
  * @param col
+ * @param row
  * @param ch
  * @return: void
  */
-void vt_draw_char_at(rt_uint16_t row, rt_uint16_t col, char ch)
+void vt_draw_char_at(rt_uint16_t col, rt_uint16_t row, char ch)
 {
-    vt_move_to(row, col);
+    vt_move_to(col, row);
     rt_kprintf("%c", ch);
 }
 
 /**
- * @description: Draw a string at (row, col), auto linefeed.
- * @param row
+ * @description: Draw a string at (col, row), auto linefeed.
  * @param col
+ * @param row
  * @param str
  * @return: void
  */
-void vt_draw_str_at(rt_uint16_t row, rt_uint16_t col, char* str)
+void vt_draw_str_at(rt_uint16_t col, rt_uint16_t row, char* str)
 {
-    vt_move_to(row, col);
+    vt_move_to(col, row);
     rt_kprintf("%s", str);
 }
 
 /**
- * @description: Draw a horizontal line beginning at (row, col) with length of (len)
- * @param row
+ * @description: Draw a horizontal line beginning at (col,row) with length of (len)
  * @param col
+ * @param row
  * @param len
  * @param ch
  * @return: void
  */
-void vt_draw_hline(rt_uint16_t row, rt_uint16_t col, rt_uint16_t len, char ch)
+void vt_draw_hline(rt_uint16_t col, rt_uint16_t row, rt_uint16_t len, char ch)
 {
     rt_uint16_t i;
 
-    vt_move_to(row, col);
+    vt_move_to(col, row);
     for(i = col; i < (col + len); i++){
         vt_draw_char(ch);
     }
 }
 
 /**
- * @description: Draw a vertical line beginning at (row, col) with length of (len)
- * @param row
+ * @description: Draw a vertical line beginning at (col,row) with length of (len)
  * @param col
+ * @param row
  * @param len
  * @param ch
  * @return: void
  */
-void vt_draw_vline(rt_uint16_t row, rt_uint16_t col, rt_uint16_t len, char ch)
+void vt_draw_vline(rt_uint16_t col, rt_uint16_t row, rt_uint16_t len, char ch)
 {
     rt_uint16_t i;
     for(i = row; i < (row + len); i++){
-        vt_draw_char_at(i, col, ch);
+        vt_draw_char_at(col, i, ch);
     }
 }
 
 /**
- * @description: Fill a box with upper left corner at (row, col) with n_rows and n_cols
- * @param s_row
+ * @description: Fill a box with upper left corner at (col,row) with n_cols and n_rows
  * @param s_col
- * @param n_row
- * @param n_cols
  * @param s_row
+ * @param n_cols
+ * @param n_row
+ * @param ch
  * @return: void
  */
-void vt_fill_box(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, char ch)
+void vt_fill_box(rt_uint16_t s_col, rt_uint16_t s_row, rt_uint16_t n_cols, rt_uint16_t n_rows, char ch)
 {
     rt_uint16_t row = 0;
     rt_uint16_t col = 0;
     for (row = s_row; row < (s_row + n_rows); row++){
-        vt_move_to(row, s_col);
+        vt_move_to(s_col, row);
         for (col = s_col; col < (s_col + n_cols); col++){
             vt_draw_char(ch);
         }
@@ -425,48 +425,48 @@ void vt_fill_box(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_ui
 }
 
 /**
- * @description: Draw a framed box with upper left corner at (row, col) with n_rows and n_cols
- * @param s_row   starting row
+ * @description: Draw a framed box with upper left corner at (col,row) with n_cols and n_rows
  * @param s_col   starting col
- * @param n_rows  width
- * @param n_cols  height
+ * @param s_row   starting row
+ * @param n_cols  width
+ * @param n_rows  height
  * @param h_fill  horizontal border
  * @param v_fill  vertical border
  * @param c_fill  corner character
  * @return: void
  */
-void vt_draw_box(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, char h_fill, char v_fill, char c_fill)
+void vt_draw_box(rt_uint16_t s_col, rt_uint16_t s_row, rt_uint16_t n_cols, rt_uint16_t n_rows, char h_fill, char v_fill, char c_fill)
 {
-    vt_draw_hline(s_row, s_col, n_cols, h_fill);
-    vt_draw_hline(s_row + n_rows - 1, s_col, n_cols, h_fill);
-    vt_draw_vline(s_row, s_col, n_rows, v_fill);
-    vt_draw_vline(s_row, s_col + n_cols - 1, n_rows, v_fill);
+    vt_draw_hline(s_col, s_row, n_cols, h_fill);
+    vt_draw_hline(s_col, s_row + n_rows - 1, n_cols, h_fill);
+    vt_draw_vline(s_col, s_row, n_rows, v_fill);
+    vt_draw_vline(s_col + n_cols - 1, s_row, n_rows, v_fill);
 
-    vt_draw_char_at(s_row, s_col, c_fill);
-    vt_draw_char_at(s_row, s_col + n_cols - 1, c_fill);
-    vt_draw_char_at(s_row + n_rows - 1, s_col, c_fill);
-    vt_draw_char_at(s_row + n_rows - 1, s_col + n_cols - 1, c_fill);
+    vt_draw_char_at(s_col, s_row, c_fill);
+    vt_draw_char_at(s_col + n_cols - 1, s_row, c_fill);
+    vt_draw_char_at(s_col, s_row + n_rows - 1, c_fill);
+    vt_draw_char_at(s_col + n_cols - 1, s_row + n_rows - 1, c_fill);
 }
 
 /**
- * @description: Draw a bitmap with n_rows and n_cols (bytes)
- * @param  s_row        starting row
+ * @description: Draw a bitmap with n_cols and n_rows (bytes)
  * @param  s_col        starting column
- * @param  n_rows       width
- * @param  n_cols       height
+ * @param  s_row        starting row
+ * @param  n_cols       width
+ * @param  n_rows       height
  * @param  bitmap
  * @param  color_on     display background
  * @param  color off    non-display background
  * @return: void
  */
-void vt_draw_bitmap(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, const rt_uint8_t* bitmap,
+void vt_draw_bitmap(rt_uint16_t s_col, rt_uint16_t s_row, rt_uint16_t n_cols, rt_uint16_t n_rows, const rt_uint8_t* bitmap,
                     vt_back_color color_on, vt_back_color color_off)
 {
     rt_uint16_t row = 0;
     rt_uint16_t col = 0;
     for (row = s_row; row < (s_row + n_rows); row++)
     {
-        vt_move_to(row, s_col);
+        vt_move_to(s_col, row);
         for (col = 0; col < (n_cols * 8); col++)
         {
             if((bitmap[row] & (1 << col)))
@@ -482,7 +482,7 @@ void vt_draw_bitmap(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt
     }
 }
 
-void vt_draw_rgb888_cwh(rt_uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols)
+void vt_draw_rgb888_cwh(rt_uint8_t* buffer, rt_uint16_t n_cols, rt_uint16_t n_rows)
 {
     rt_uint16_t row = 0;
     rt_uint16_t col = 0;
@@ -499,7 +499,7 @@ void vt_draw_rgb888_cwh(rt_uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_co
     }
 }
 
-void vt_draw_rgb888_whc(rt_uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols)
+void vt_draw_rgb888_whc(rt_uint8_t* buffer, rt_uint16_t n_cols, rt_uint16_t n_rows)
 {
     rt_uint16_t row = 0;
     rt_uint16_t col = 0;
