@@ -102,9 +102,9 @@ void vt_draw_bitmap(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt
                     vt_back_color color_on, vt_back_color color_off);
 
 /* channel width height */
-void vt_draw_rgb888_cwh(uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols);
+void vt_draw_rgb888_cwh(rt_uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols);
 
 /* width height channel */
-void vt_draw_rgb888_whc(uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols);
+void vt_draw_rgb888_whc(rt_uint8_t* buffer, rt_uint16_t n_rows, rt_uint16_t n_cols);
 
 #endif /*__VT100_H__*/

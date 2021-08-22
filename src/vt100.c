@@ -428,8 +428,8 @@ void vt_fill_box(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_ui
  * @description: Draw a framed box with upper left corner at (row, col) with n_rows and n_cols
  * @param s_row   starting row
  * @param s_col   starting col
- * @param n_rows  width
- * @param n_cols  height
+ * @param n_rows  height
+ * @param n_cols  width
  * @param h_fill  horizontal border
  * @param v_fill  vertical border
  * @param c_fill  corner character
@@ -452,8 +452,8 @@ void vt_draw_box(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_ui
  * @description: Draw a bitmap with n_rows and n_cols (bytes)
  * @param  s_row        starting row
  * @param  s_col        starting column
- * @param  n_rows       width
- * @param  n_cols       height
+ * @param  n_rows       height
+ * @param  n_cols       width
  * @param  bitmap
  * @param  color_on     display background
  * @param  color off    non-display background
