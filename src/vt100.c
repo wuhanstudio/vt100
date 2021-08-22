@@ -40,7 +40,7 @@ void vt_clear_line(void)
 }
 
 /**
- * @description: Clear screen & delete all lines saved in the scrollback buffer & move cursor to (0,0)
+ * @description: Clear screen & delete all lines saved in the scrollback buffer & move cursor to the beginning
  * @param void
  * @return: void
  */
@@ -48,7 +48,7 @@ void vt_clearall(void)
 {
     vt_clear();
     vt_clear_scrollback();
-    vt_move_to(0,0);
+    vt_move_to(1,1);
 }
 
 /**
@@ -103,13 +103,13 @@ void vt_move_left(rt_uint16_t step)
 
 /**
  * @description: Move cursor to (row, column)
- * @param row destination row number, starting from 0
- * @param col destination column number, starting from 0
+ * @param row destination row number
+ * @param col destination column number
  * @return: void
  */
 void vt_move_to(rt_uint16_t row, rt_uint16_t col)
 {
-    rt_kprintf("\033[%d;%dH", row + 1, col + 1);
+    rt_kprintf("\033[%d;%dH", row, col);
 }
 
 /**
@@ -276,9 +276,9 @@ void vt_get_terminal_size(rt_uint16_t *row, rt_uint16_t *col)
         *p++ = vt_tio_buf[cnt2++];
     }
 
-    /* load the window size date, started from 0 */
-    *col = atoi(col_s) - 1;
-    *row = atoi(row_s) - 1;
+    /* load the window size date, started from 1 */
+    *col = atoi(col_s);
+    *row = atoi(row_s);
 #undef VT_TIO_BUFLEN
 }
 #endif /* RT_VER_NUM >= 0x40004 */
