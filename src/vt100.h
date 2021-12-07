@@ -98,7 +98,7 @@ void vt_draw_vline(rt_uint16_t row, rt_uint16_t col, rt_uint16_t len, char ch);
 void vt_fill_box(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, char ch);
 void vt_draw_box(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, char h_fill, char v_fill, char c_fill);
 
-void vt_draw_bitmap(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, const uint8_t* bitmap,
+void vt_draw_bitmap(rt_uint16_t s_row, rt_uint16_t s_col, rt_uint16_t n_rows, rt_uint16_t n_cols, const rt_uint8_t* bitmap,
                     vt_back_color color_on, vt_back_color color_off);
 
 /* channel width height */
